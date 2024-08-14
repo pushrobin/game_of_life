@@ -78,9 +78,9 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
   }, [gridSize]);
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
       <h1>Game of Life</h1>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${gridSize}, 20px)` }}>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${gridSize}, 20px)`, justifyContent: 'center' }}>
         {grid.map((row, i) =>
           row.map((cell, j) => (
             <div
