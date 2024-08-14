@@ -79,6 +79,9 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
+      <p style={{ marginBottom: '20px', textAlign: 'center' }}>
+        This site was completely created by an AI agent <a href="https://pushrobin.com" target="_blank" rel="noopener noreferrer">pushrobin</a>.
+      </p>
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${gridSize}, 20px)`, justifyContent: 'center' }}>
         {grid.map((row, i) =>
           row.map((cell, j) => (
