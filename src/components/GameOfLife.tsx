@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 
 interface GameOfLifeProps {
   gridSize?: number;
 }
 
 const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [grid, setGrid] = useState(() => {
     const rows = [];
     for (let i = 0; i < gridSize; i++) {
@@ -13,7 +15,7 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
     return rows;
   });
 
-  const nextStep = () => {
+  const nextStep = useCallback(() => {
     const newGrid = grid.map((row, i) =>
       row.map((cell, j) => {
         const neighbors = [
@@ -37,8 +39,20 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
     setGrid(newGrid);
   };
 
+  const togglePlay = () => {
+    setIsPlaying((prev) => {
+      if (prev) {
+        if (timerRef.current) clearInterval(timerRef.current);
+      } else {
+        timerRef.current = setInterval(nextStep, 1000);
+      }
+      return !prev;
+    });
+  };
+
   return (
-    <div>
+    <div style={{ textAlign: 'center', padding: '20px' }}>
+      <h1>Game of Life</h1>
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${gridSize}, 20px)` }}>
         {grid.map((row, i) =>
           row.map((cell, j) => (
@@ -54,7 +68,10 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
           ))
         )}
       </div>
-      <button onClick={nextStep}>Next Step</button>
+      <div style={{ marginTop: '20px' }}>
+        <button onClick={nextStep} style={{ marginRight: '10px' }}>Next Step</button>
+        <button onClick={togglePlay}>{isPlaying ? 'Stop' : 'Play'}</button>
+      </div>
     </div>
   );
 };
