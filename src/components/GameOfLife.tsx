@@ -16,28 +16,29 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
   });
 
   const nextStep = useCallback(() => {
-    const newGrid = grid.map((row, i) =>
-      row.map((cell, j) => {
-        const neighbors = [
-          [-1, -1], [-1, 0], [-1, 1],
-          [0, -1],           [0, 1],
-          [1, -1], [1, 0], [1, 1]
-        ].reduce((acc, [x, y]) => {
-          const newI = i + x;
-          const newJ = j + y;
-          if (newI >= 0 && newI < gridSize && newJ >= 0 && newJ < gridSize) {
-            acc += grid[newI][newJ];
-          }
-          return acc;
-        }, 0);
+    setGrid(prevGrid => {
+      return prevGrid.map((row, i) =>
+        row.map((cell, j) => {
+          const neighbors = [
+            [-1, -1], [-1, 0], [-1, 1],
+            [0, -1],           [0, 1],
+            [1, -1], [1, 0], [1, 1]
+          ].reduce((acc, [x, y]) => {
+            const newI = i + x;
+            const newJ = j + y;
+            if (newI >= 0 && newI < gridSize && newJ >= 0 && newJ < gridSize) {
+              acc += prevGrid[newI][newJ];
+            }
+            return acc;
+          }, 0);
 
-        if (cell === 1 && (neighbors < 2 || neighbors > 3)) return 0;
-        if (cell === 0 && neighbors === 3) return 1;
-        return cell;
-      })
-    );
-    setGrid(newGrid);
-  }, [grid, gridSize]);
+          if (cell === 1 && (neighbors < 2 || neighbors > 3)) return 0;
+          if (cell === 0 && neighbors === 3) return 1;
+          return cell;
+        })
+      );
+    });
+  }, [gridSize]);
 
   const togglePlay = useCallback(() => {
     setIsPlaying((prev) => {
@@ -48,12 +49,33 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
         }
       } else {
         timerRef.current = setInterval(() => {
-          nextStep();
+          setGrid(prevGrid => {
+            return prevGrid.map((row, i) =>
+              row.map((cell, j) => {
+                const neighbors = [
+                  [-1, -1], [-1, 0], [-1, 1],
+                  [0, -1],           [0, 1],
+                  [1, -1], [1, 0], [1, 1]
+                ].reduce((acc, [x, y]) => {
+                  const newI = i + x;
+                  const newJ = j + y;
+                  if (newI >= 0 && newI < gridSize && newJ >= 0 && newJ < gridSize) {
+                    acc += prevGrid[newI][newJ];
+                  }
+                  return acc;
+                }, 0);
+
+                if (cell === 1 && (neighbors < 2 || neighbors > 3)) return 0;
+                if (cell === 0 && neighbors === 3) return 1;
+                return cell;
+              })
+            );
+          });
         }, 100);
       }
       return !prev;
     });
-  }, [nextStep]);
+  }, [gridSize]);
 
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
