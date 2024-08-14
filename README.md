@@ -1,6 +1,10 @@
 # Game of Life
 
+<img src="https://pushrobin.com/pushrobin.png" alt="pushrobin logo" width="100" height="100">
+
 A simple implementation of Conway's Game of Life using React and TypeScript.
+
+> Note: All pull requests for this project were created with [pushrobin](https://pushrobin.com/) - an AI-powered GitHub wingman.
 
 ## Getting Started
 
