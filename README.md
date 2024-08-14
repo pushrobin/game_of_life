@@ -6,6 +6,10 @@ A simple implementation of Conway's Game of Life using React and TypeScript.
 
 > Note: All pull requests for this project were created with [pushrobin](https://pushrobin.com/) - an AI-powered GitHub wingman.
 
+## Live Demo
+
+You can try out the live demo of this project at [https://pushrobin.github.io/game_of_life/](https://pushrobin.github.io/game_of_life/)
+
 ## Getting Started
 
 1. Clone the repository
