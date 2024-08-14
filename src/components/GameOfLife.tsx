@@ -42,9 +42,14 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
   const togglePlay = useCallback(() => {
     setIsPlaying((prev) => {
       if (prev) {
-        if (timerRef.current) clearInterval(timerRef.current);
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
       } else {
-        timerRef.current = setInterval(nextStep, 1000);
+        timerRef.current = setInterval(() => {
+          nextStep();
+        }, 100);
       }
       return !prev;
     });
