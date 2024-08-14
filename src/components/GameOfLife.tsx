@@ -1,3 +1,4 @@
+```javascript
 import React, { useState, useCallback, useRef } from 'react';
 
 interface GameOfLifeProps {
@@ -104,3 +105,4 @@ const GameOfLife: React.FC<GameOfLifeProps> = ({ gridSize = 50 }) => {
 };
 
 export default GameOfLife;
+```
